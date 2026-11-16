@@ -1,0 +1,479 @@
+/* =========================================
+   1. ПЕРЕМЕННЫЕ
+   ========================================= */
+:root {
+  /* Цвета */
+  --color-bg: #FAFAF8;
+  --color-surface: #F0F1EE;
+  --color-line: #D9DBD6;
+  --color-text: #1A1C1B;
+  --color-muted: #5F6460;
+  --color-accent: #4F6F5E;       /* тёмный дымчатый зелёный: кнопки, ссылки */
+  --color-accent-soft: #E6EDE8;  /* светлый зелёный: плашки, подложки */
+  --color-dark: #141615;         /* тёмные блоки */
+
+  /* Шрифты */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Roboto', system-ui, sans-serif;
+
+  /* Отступы */
+  --space-s: 1rem;
+  --space-m: 2rem;
+  --space-l: 3.5rem;
+  --space-section: clamp(4rem, 10vw, 8rem);
+
+  /* Прочее */
+  --radius: 4px;
+  --transition: 0.4s ease;
+}
+
+/* =========================================
+   2. СБРОС И БАЗА
+   ========================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+ul {
+  list-style: none;
+}
+
+address {
+  font-style: normal;
+}
+
+section {
+  scroll-margin-top: 70px;
+}
+
+/* Видимый фокус для тех, кто ходит по сайту клавишей Tab */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   3. ТИПОГРАФИКА
+   ========================================= */
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 9vw, 5.5rem);
+}
+
+h2 {
+  font-size: clamp(1.9rem, 5vw, 3.25rem);
+  margin-bottom: var(--space-m);
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.eyebrow {
+  margin-bottom: var(--space-s);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-accent);
+}
+
+/* =========================================
+   4. СЕКЦИИ (телефон)
+   ========================================= */
+.section {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: var(--space-section) 1.25rem;
+}
+
+.section > p:not(.eyebrow) {
+  max-width: 600px;
+  color: var(--color-muted);
+}
+
+.section.section--dark {
+  max-width: none;
+  padding-inline: max(1.25rem, calc((100% - 1200px) / 2 + 1.25rem));
+  background: var(--color-dark);
+  color: var(--color-bg);
+}
+
+.section--dark > p:not(.eyebrow) {
+  color: inherit;
+}
+
+.section--dark .eyebrow,
+.section--dark p a {
+  color: #a7cbb4;
+}
+
+/* =========================================
+   5. КНОПКА
+   ========================================= */
+.btn {
+  display: inline-block;
+  padding: 0.9rem 1.75rem;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.btn:hover {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+/* =========================================
+   6. ЗАГЛУШКИ ДЛЯ ФОТО
+   ========================================= */
+.placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+/* =========================================
+   7. ЦИФРЫ В БЛОКЕ «ПРО НАС»
+   ========================================= */
+.facts {
+  display: grid;
+  gap: var(--space-m);
+  margin-top: var(--space-l);
+}
+
+.facts li {
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.facts strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--color-accent);
+}
+
+.facts span {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* =========================================
+   8. ОТ ПЛАНШЕТА И ШИРЕ
+   ========================================= */
+@media (min-width: 768px) {
+  .section {
+    padding-inline: 2rem;
+  }
+
+  .section.section--dark {
+    padding-inline: max(2rem, calc((100% - 1200px) / 2 + 2rem));
+  }
+
+  .facts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .btn {
+    padding: 1rem 2.25rem;
+  }
+}
+
+/* =========================================
+   9. ШАПКА (телефон)
+   ========================================= */
+.header {
+  --header-h: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  height: var(--header-h);
+  padding-inline: 1.25rem;
+  background: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* Логотип: на телефоне только монограмма */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: auto;
+}
+
+.logo-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.logo-text {
+  display: none;
+  line-height: 1.2;
+}
+
+.logo-text small {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--color-muted);
+}
+
+.logo-text strong {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+/* Кнопка в шапке на телефоне скрыта: «Записатися» есть в меню */
+.header > .btn {
+  display: none;
+}
+
+/* Бургер */
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.burger span {
+  width: 26px;
+  height: 2px;
+  background: var(--color-text);
+  transition: transform var(--transition);
+}
+
+.burger[aria-expanded="true"] span:first-child {
+  transform: translateY(4.5px) rotate(45deg);
+}
+
+.burger[aria-expanded="true"] span:last-child {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+/* Мобильное меню: выпадает под шапкой */
+.nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 1.25rem 1.5rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-line);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+}
+
+.nav.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.nav a {
+  display: block;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: color var(--transition);
+}
+
+.nav a:hover {
+  color: var(--color-accent);
+}
+
+.nav-cta {
+  margin-top: var(--space-s);
+}
+
+.nav-cta a {
+  padding: 0.9rem;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  color: #fff;
+  text-align: center;
+}
+
+.nav-cta a:hover {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+/* =========================================
+   10. HERO
+   ========================================= */
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - 70px);
+  padding: var(--space-section) 1.25rem;
+  /* Чтобы поставить фото: замените градиент на url("../images/hero.jpg") */
+  background:
+    linear-gradient(rgba(20, 22, 21, 0.55), rgba(20, 22, 21, 0.75)),
+    linear-gradient(135deg, #5b7566, #141615);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.hero .eyebrow {
+  color: #a7cbb4;
+}
+
+.hero h1 {
+  max-width: 14ch;
+  margin-bottom: var(--space-m);
+}
+
+.hero-text {
+  max-width: 520px;
+  margin-bottom: var(--space-l);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero .btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+/* =========================================
+   11. ШАПКА И HERO: ПЛАНШЕТ И ШИРЕ
+   ========================================= */
+@media (min-width: 768px) {
+  .header {
+    padding-inline: 2rem;
+  }
+
+  .logo-text {
+    display: block;
+  }
+
+  .hero {
+    padding-inline: 2rem;
+  }
+}
+
+/* Полное меню в строку */
+@media (min-width: 1024px) {
+  .burger,
+  .nav-cta {
+    display: none;
+  }
+
+  .header > .btn {
+    display: inline-block;
+  }
+
+  .nav {
+    position: static;
+    flex: 1;
+    padding: 0;
+    background: none;
+    border: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .nav a {
+    padding: 0.5rem 0;
+    border: 0;
+  }
+}
