@@ -8,7 +8,7 @@
   --color-line: #D9DBD6;
   --color-text: #1A1C1B;
   --color-muted: #5F6460;
-  --color-accent: #4F6F5E;       /* тёмный дымчатый зелёный: кнопки, ссылки */
+  --color-accent: #3e634d;       /* тёмный дымчатый зелёный: кнопки, ссылки */
   --color-accent-soft: #E6EDE8;  /* светлый зелёный: плашки, подложки */
   --color-dark: #141615;         /* тёмные блоки */
 
@@ -25,6 +25,8 @@
   /* Прочее */
   --radius: 4px;
   --transition: 0.4s ease;
+  --header-h: 70px;
+  --gutter: 1.25rem;
 }
 
 /* =========================================
@@ -77,7 +79,7 @@ address {
 }
 
 section {
-  scroll-margin-top: 70px;
+  scroll-margin-top: var(--header-h);
 }
 
 /* Видимый фокус для тех, кто ходит по сайту клавишей Tab */
@@ -126,7 +128,7 @@ h3 {
 .section {
   max-width: 1200px;
   margin-inline: auto;
-  padding: var(--space-section) 1.25rem;
+  padding: var(--space-section) var(--gutter);
 }
 
 .section > p:not(.eyebrow) {
@@ -175,20 +177,6 @@ h3 {
 }
 
 /* =========================================
-   6. ЗАГЛУШКИ ДЛЯ ФОТО
-   ========================================= */
-.placeholder {
-  display: grid;
-  place-items: center;
-  min-height: 220px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  color: var(--color-muted);
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-}
-
-/* =========================================
    7. ЦИФРЫ В БЛОКЕ «ПРО НАС»
    ========================================= */
 .facts {
@@ -219,7 +207,14 @@ h3 {
 /* =========================================
    8. ОТ ПЛАНШЕТА И ШИРЕ
    ========================================= */
-@media (min-width: 768px) {
+   @media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+  }
+    .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
   .section {
     padding-inline: 2rem;
   }
@@ -235,13 +230,12 @@ h3 {
   .btn {
     padding: 1rem 2.25rem;
   }
-}
+
 
 /* =========================================
    9. ШАПКА (телефон)
    ========================================= */
 .header {
-  --header-h: 70px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -249,12 +243,11 @@ h3 {
   align-items: center;
   gap: var(--space-s);
   height: var(--header-h);
-  padding-inline: 1.25rem;
+  padding-inline: max(var(--gutter), calc((100% - 1200px) / 2 + var(--gutter)));
   background: rgba(250, 250, 248, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-line);
 }
-
 /* Логотип: на телефоне только монограмма */
 .logo {
   display: flex;
@@ -387,23 +380,48 @@ h3 {
    10. HERO
    ========================================= */
 .hero {
+  --hero-base: #52765b;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: calc(100svh - 70px);
-  padding: var(--space-section) 1.25rem;
-  /* Чтобы поставить фото: замените градиент на url("../images/hero.jpg") */
-  background:
-    linear-gradient(rgba(20, 22, 21, 0.55), rgba(20, 22, 21, 0.75)),
-    linear-gradient(135deg, #5b7566, #141615);
-  background-size: cover;
-  background-position: center;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+  padding-block: clamp(3rem, 6vw, 5rem);
+  background: var(--hero-base);
   color: #fff;
 }
 
+.hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    315deg,
+    rgba(18, 45, 29, 0.88) 0%,
+    rgba(18, 45, 29, 0.55) 30%,
+    rgba(18, 45, 29, 0.18) 65%,
+    rgba(18, 45, 29, 0) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
 .hero-content {
+  position: relative;
+  z-index: 3;
   width: 100%;
   max-width: 1200px;
   margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 3;
+  width: clamp(23rem, 46vw, 36rem);
+  min-width: 0;
 }
 
 .hero .eyebrow {
@@ -413,6 +431,7 @@ h3 {
 .hero h1 {
   max-width: 14ch;
   margin-bottom: var(--space-m);
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
 }
 
 .hero-text {
@@ -422,25 +441,50 @@ h3 {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.hero .btn:hover {
+.hero-portrait {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: min(48vw, 640px);
+  margin: 0;
+  pointer-events: none;
+}
+
+.hero-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+  -webkit-mask-image: url("../images/master/master-cutout-mask.png");
+  -webkit-mask-position: right bottom;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-image: url("../images/master/master-cutout-mask.png");
+  mask-position: right bottom;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.hero .btn {
+  background: #fff;
   border-color: #fff;
+  color: var(--color-accent);
+}
+
+.hero .btn:hover {
+  background: transparent;
   color: #fff;
 }
 
 /* =========================================
    11. ШАПКА И HERO: ПЛАНШЕТ И ШИРЕ
    ========================================= */
-@media (min-width: 768px) {
-  .header {
-    padding-inline: 2rem;
-  }
-
+@media (min-width: 280px) {
   .logo-text {
     display: block;
-  }
-
-  .hero {
-    padding-inline: 2rem;
   }
 }
 
@@ -469,11 +513,643 @@ h3 {
   .nav ul {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: clamp(1rem, 2vw, 2rem);
   }
 
   .nav a {
     padding: 0.5rem 0;
     border: 0;
+  }
+    .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* =========================================
+   13. КАРТОЧКИ УСЛУГ (mobile-first)
+   ========================================= */
+.services-grid {
+  display: grid;
+  gap: 1rem;                       /* телефон: одна колонка */
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.service-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 1.5rem;
+  background: var(--color-accent-soft);
+  border-radius: 50%;
+  color: var(--color-accent);
+}
+
+.service-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.service-card p:not(.service-price) {
+  flex: 1;                         /* текст занимает свободное место, цена прижата вниз */
+  margin-bottom: 1.25rem;
+  color: var(--color-muted);
+}
+
+.service-price {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-accent);
+}
+
+/* Выделенная карточка */
+.service-card--featured {
+  background: var(--color-dark);
+  border-color: var(--color-dark);
+  color: #fff;
+}
+
+.service-card--featured .service-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: #A9C2B3;
+}
+
+.service-card--featured p:not(.service-price) {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.service-card--featured .service-price {
+  color: #A9C2B3;
+}
+
+/* Подъём при наведении только там, где есть мышь */
+@media (hover: hover) {
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+  }
+}
+
+/* =========================================
+   14. КАРТКИ ПРОЦЕДУР
+   ========================================= */
+.technique-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  align-items: stretch;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  margin-top: var(--space-l);
+}
+
+.technique-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(20, 22, 21, 0.06);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.technique-card h3 {
+  margin: 1.25rem 1.25rem 0.5rem;
+}
+
+.technique-card p {
+  flex: 1;
+  margin: 0 1.25rem 1.25rem;
+  color: var(--color-muted);
+}
+
+.technique-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  background: var(--color-surface);
+}
+
+@media (hover: hover) {
+  .technique-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 14px 32px rgba(20, 22, 21, 0.12);
+  }
+}
+
+/* =========================================
+   15. РЕЗУЛЬТАТИ «ДО І ПІСЛЯ»
+   ========================================= */
+.results-hint {
+  margin: -1rem 0 var(--space-m);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.result-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.result-card__tap-hint {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: clamp(132px, 54%, 172px);
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.85rem 0.55rem 0.6rem;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(47, 67, 56, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(20, 22, 21, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.result-card__tap-icon {
+  position: relative;
+  flex: 0 0 38px;
+  display: grid;
+  width: 38px;
+  aspect-ratio: 1;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.result-card__tap-icon::before {
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(226, 236, 228, 0.7);
+  border-radius: inherit;
+  content: "";
+  animation: result-card-ripple 2.4s ease-out infinite;
+}
+
+.result-card__tap-icon svg {
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+  animation: result-card-tap 2.4s ease-in-out infinite;
+}
+
+.result-card__tap-label {
+  flex: 1;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.result-card:nth-child(2) .result-card__tap-icon svg,
+.result-card:nth-child(2) .result-card__tap-icon::before {
+  animation-delay: -0.8s;
+}
+
+.result-card:nth-child(3) .result-card__tap-icon svg,
+.result-card:nth-child(3) .result-card__tap-icon::before {
+  animation-delay: -1.6s;
+}
+
+.result-card.has-interacted .result-card__tap-hint {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.result-card.has-interacted .result-card__tap-icon svg,
+.result-card.has-interacted .result-card__tap-icon::before {
+  animation: none;
+}
+
+@keyframes result-card-tap {
+  0%, 35%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  42%, 49% {
+    transform: translateY(3px) scale(0.94);
+  }
+  56% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes result-card-ripple {
+  0%, 30% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  40% {
+    opacity: 0.65;
+  }
+  75%, 100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+.result-card__inner {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  border-radius: inherit;
+  transform-style: preserve-3d;
+  transition: transform 750ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.result-card.is-flipped .result-card__inner {
+  transform: rotateY(180deg);
+}
+
+.result-card__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  overflow: hidden;
+  padding: 0.65rem;
+  background: var(--color-bg);
+  border: 1px solid rgba(79, 111, 94, 0.45);
+  border-radius: inherit;
+  box-shadow: 0 10px 28px rgba(20, 22, 21, 0.1), 0 0 0 1px rgba(79, 111, 94, 0.16);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.result-card__face--back {
+  transform: rotateY(180deg);
+}
+
+.result-card__image {
+  display: block;
+  flex: 1;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  border-radius: 5px;
+  background: var(--color-surface);
+  object-fit: cover;
+  object-position: center;
+}
+
+.result-card__label {
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.result-card:hover .result-card__face {
+  border-color: rgba(79, 111, 94, 0.8);
+  box-shadow: 0 16px 34px rgba(20, 22, 21, 0.16), 0 0 0 1px var(--color-accent);
+}
+
+.result-card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 5px;
+}
+
+@media (max-width: 767px) {
+  .results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .result-card__tap-hint {
+    width: calc(100% - 1.5rem);
+    gap: 0.45rem;
+    padding: 0.45rem 0.55rem;
+  }
+
+  .result-card__tap-icon {
+    flex-basis: 34px;
+    width: 34px;
+  }
+
+  .result-card__tap-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+  }
+
+  .result-card__inner {
+    aspect-ratio: 3 / 5;
+  }
+
+  .result-card:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.425rem);
+  }
+}
+
+@media (max-width: 380px) {
+  .results-grid {
+    gap: 0.65rem;
+  }
+
+  .result-card:nth-child(3) {
+    width: calc(50% - 0.325rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-card__inner {
+    transition-duration: 1ms;
+  }
+
+  .result-card__tap-icon svg,
+  .result-card__tap-icon::before {
+    animation: none;
+  }
+}
+
+/* =========================================
+   16. ЗАЧІСКИ
+   ========================================= */
+.hairstyle-intro {
+  margin-top: -1rem;
+  margin-bottom: var(--space-m);
+}
+
+.hairstyle-tab-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  max-width: 660px;
+  margin: 0 auto 1.5rem;
+  padding: 0.4rem;
+  background: var(--color-accent-soft);
+  border: 1px solid rgba(79, 111, 94, 0.14);
+  border-radius: 999px;
+}
+
+.hairstyle-tab {
+  padding: 0.75rem 1rem;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.hairstyle-tab[aria-selected="true"] {
+  color: #fff;
+  background: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(20, 22, 21, 0.12);
+}
+
+.hairstyle-tab:focus-visible {
+  outline-offset: 2px;
+}
+
+.hairstyle-panel[hidden] {
+  display: none;
+}
+
+.hairstyle-panel:not([hidden]) {
+  animation: hairstyle-panel-in 450ms ease both;
+}
+
+@keyframes hairstyle-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hairstyle-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+  max-width: 1080px;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  background: linear-gradient(135deg, rgba(230, 237, 232, 0.62), rgba(250, 250, 248, 0.96) 65%);
+  border: 1px solid rgba(79, 111, 94, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(20, 22, 21, 0.06);
+}
+
+.hairstyle-photo {
+  width: 100%;
+  max-width: 370px;
+  margin-inline: auto;
+  padding: 0.55rem;
+  background: #fff;
+  border: 1px solid rgba(79, 111, 94, 0.32);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(20, 22, 21, 0.1);
+}
+
+.hairstyle-photo__frame {
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--color-surface);
+}
+
+.hairstyle-photo__frame img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hairstyle-photo__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 0.25rem 0.15rem;
+  color: var(--color-accent);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hairstyle-copy {
+  max-width: 440px;
+  padding-block: 1rem;
+}
+
+.hairstyle-index {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+}
+
+.hairstyle-index span {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hairstyle-copy h3 {
+  max-width: 16ch;
+  margin: 0.85rem 0 1rem;
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+}
+
+.hairstyle-copy > p:not(.hairstyle-index) {
+  max-width: 38ch;
+  margin-bottom: 1.75rem;
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+@media (max-width: 767px) {
+  .hairstyle-tab-list {
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+    padding: 0.3rem;
+  }
+
+  .hairstyle-tab {
+    padding: 0.65rem 0.35rem;
+    font-size: 0.72rem;
+  }
+
+  .hairstyle-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .hairstyle-photo {
+    max-width: 280px;
+  }
+
+  .hairstyle-copy {
+    max-width: 500px;
+    margin-inline: auto;
+    padding: 0.25rem 0.25rem 0.5rem;
+    text-align: center;
+  }
+
+  .hairstyle-index {
+    justify-content: center;
+  }
+
+  .hairstyle-copy h3,
+  .hairstyle-copy > p:not(.hairstyle-index) {
+    margin-inline: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hairstyle-panel:not([hidden]) {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding: 2.5rem var(--gutter);
+  }
+
+  .hero-content {
+    display: contents;
+  }
+
+  .hero-copy {
+    width: auto;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero h1 {
+    max-width: none;
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 9.5vw, 3rem);
+  }
+
+  .hero-text {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .hero-portrait {
+    position: relative;
+    inset: auto;
+    width: min(72vw, 340px);
+    margin-bottom: -2.5rem;
+    justify-self: center;
+    pointer-events: none;
+  }
+
+  .hero-portrait img {
+    height: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero {
+    padding-block: 2rem;
+  }
+
+  .hero-portrait {
+    width: min(72vw, 274px);
+    margin-bottom: -2rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 9.5vw, 2.3rem);
   }
 }
