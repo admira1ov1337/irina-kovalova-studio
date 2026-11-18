@@ -20,7 +20,7 @@
   --space-s: 1rem;
   --space-m: 2rem;
   --space-l: 3.5rem;
-  --space-section: clamp(4rem, 10vw, 8rem);
+  --space-section: clamp(2.75rem, 6vw, 5rem);
 
   /* Прочее */
   --radius: 4px;
