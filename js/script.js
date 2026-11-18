@@ -85,3 +85,61 @@ hairstyleTabs.forEach((tab, index) => {
     activateHairstyleTab(nextIndex);
   });
 });
+
+/* Плавна поява під час прокручування */
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+if ('IntersectionObserver' in window && !motionPreference.matches) {
+  const revealItems = document.querySelectorAll([
+    '.section > .eyebrow',
+    '.section > h2',
+    '#pro-nas > p:not(.eyebrow)',
+    '.facts li',
+    '.service-card',
+    '.result-card',
+    '.technique-card',
+    '.hairstyle-intro',
+    '.hairstyle-tabs',
+    '.review-card',
+    '.contact-info',
+    '.contact-map',
+  ].join(', '));
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      const item = entry.target;
+      item.classList.remove('reveal-pending');
+      item.classList.add('reveal-entering');
+      observer.unobserve(item);
+    });
+  }, { rootMargin: '0px 0px -24px 0px' });
+
+  revealItems.forEach((item) => {
+    if (item.getBoundingClientRect().top < window.innerHeight) return;
+
+    const siblings = Array.from(item.parentElement.children);
+    item.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(item), 2) * 80}ms`);
+    item.classList.add('reveal-pending');
+    revealObserver.observe(item);
+
+    item.addEventListener('focusin', () => {
+      item.classList.remove('reveal-pending', 'reveal-entering');
+      revealObserver.unobserve(item);
+    });
+
+    item.addEventListener('animationend', (event) => {
+      if (event.target === item && event.animationName === 'reveal-up') {
+        item.classList.remove('reveal-entering');
+      }
+    });
+  });
+
+  motionPreference.addEventListener('change', (event) => {
+    if (!event.matches) return;
+
+    revealObserver.disconnect();
+    revealItems.forEach((item) => item.classList.remove('reveal-pending', 'reveal-entering'));
+  });
+}

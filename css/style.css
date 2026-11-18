@@ -398,6 +398,11 @@ h3 {
   inset: 0;
   z-index: 1;
   background: linear-gradient(
+    to top,
+    rgba(12, 30, 20, 0.58) 0%,
+    rgba(12, 30, 20, 0.2) 30%,
+    rgba(12, 30, 20, 0) 65%
+  ), linear-gradient(
     315deg,
     rgba(18, 45, 29, 0.88) 0%,
     rgba(18, 45, 29, 0.55) 30%,
@@ -595,6 +600,91 @@ h3 {
   .service-card:hover {
     transform: translateY(-4px);
     border-color: var(--color-accent);
+  }
+}
+
+.price-list {
+  margin-top: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.price-list > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 60px;
+  padding: 1rem 1.5rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.price-list > summary::-webkit-details-marker {
+  display: none;
+}
+
+.price-list > summary span::before {
+  content: "+";
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.price-list[open] > summary span::before {
+  content: "−";
+}
+
+.price-list__groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  padding: 0 clamp(1rem, 3vw, 2rem) 2rem;
+}
+
+.price-list__group {
+  min-width: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.price-list__group h3 {
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+.price-list__group dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.9rem;
+}
+
+.price-list__group dt {
+  min-width: 0;
+}
+
+.price-list__group dd {
+  flex-shrink: 0;
+  text-align: right;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.price-list__group dd small {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+@media (max-width: 767px) {
+  .price-list__groups {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1151,5 +1241,358 @@ h3 {
 
   .hero h1 {
     font-size: clamp(2rem, 9.5vw, 2.3rem);
+  }
+}
+
+/* =========================================
+   17. ЗАПИС І КОНТАКТИ
+   ========================================= */
+.contact-section h2 {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: stretch;
+}
+
+.contact-info,
+.contact-map {
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid rgba(79, 111, 94, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(20, 22, 21, 0.06);
+}
+
+.contact-info {
+  display: grid;
+  align-content: start;
+  gap: 1.75rem;
+  background: #f0f3ef;
+}
+
+.contact-label {
+  margin-bottom: 0.75rem;
+  color: var(--color-accent);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contact-address address strong,
+.contact-address address span,
+.contact-phone {
+  display: block;
+}
+
+.contact-address address strong {
+  margin-bottom: 0.6rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2.3vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.contact-address address span {
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.contact-phone {
+  width: fit-content;
+  margin-top: 1rem;
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.contact-phone:hover,
+.contact-map__caption a:hover,
+.contact-map__credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.contact-social,
+.contact-hours {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(79, 111, 94, 0.22);
+}
+
+.messengers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contact-social__hint {
+  margin-bottom: 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.contact-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(79, 111, 94, 0.35);
+  border-radius: 4px;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+}
+
+.contact-social-link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.hours {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.hours caption,
+.hours th {
+  text-align: left;
+}
+
+.hours th,
+.hours td {
+  padding: 0.35rem 0;
+  vertical-align: top;
+}
+
+.hours th {
+  padding-right: 1rem;
+  font-weight: 400;
+}
+
+.hours td {
+  color: var(--color-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.contact-map {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem;
+  background: #fff;
+}
+
+.contact-map__frame {
+  flex: 1;
+  min-height: 340px;
+  overflow: hidden;
+  background: var(--color-accent-soft);
+  border-radius: 7px;
+}
+
+.contact-map__frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  border: 0;
+}
+
+.contact-map__caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.2rem 0.6rem 0.4rem;
+}
+
+.contact-map__caption .contact-label {
+  margin-bottom: 0.4rem;
+}
+
+.contact-map__caption p:not(.contact-label) {
+  max-width: 33ch;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.contact-map__caption > a {
+  flex-shrink: 0;
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.contact-map__credit {
+  padding: 0.3rem 0.6rem 0.4rem;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 767px) {
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-map__frame,
+  .contact-map__frame iframe {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 380px) {
+  .contact-map__caption {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+/* =========================================
+   ВІДГУКИ
+   ========================================= */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: clamp(21rem, calc(34rem - 35vw), 27rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid var(--color-line);
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(26, 28, 27, 0.04);
+}
+
+.review-card__mark {
+  height: 2.8rem;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.review-card__quote {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.review-card__more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.review-card__more summary::-webkit-details-marker {
+  display: none;
+}
+
+.review-card__more summary::after {
+  content: "+";
+  font-size: 1.1rem;
+}
+
+.review-card__more[open] summary::after {
+  content: "−";
+}
+
+.review-card__collapse,
+.review-card__more[open] .review-card__expand {
+  display: none;
+}
+
+.review-card__more[open] .review-card__collapse {
+  display: inline;
+}
+
+.review-card__more > p {
+  margin-top: 0.8rem;
+}
+
+.review-card__author {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.review-card__author cite {
+  display: block;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .review-card {
+    min-height: clamp(21rem, calc(32rem - 16vw), 25rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .reviews-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* =========================================
+   18. ПОЯВА ПІД ЧАС ПРОКРУЧУВАННЯ
+   ========================================= */
+.reveal-pending:not(:focus-within) {
+  opacity: 0;
+}
+
+.reveal-entering {
+  animation: reveal-up 700ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .reveal-entering {
+    animation-delay: 0ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-pending:not(:focus-within) {
+    opacity: 1;
+  }
+
+  .reveal-entering {
+    animation: none;
   }
 }
