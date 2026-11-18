@@ -24,10 +24,19 @@
   <meta name="twitter:image" content="https://kovalova-studio.com.ua/images/og-preview.png?v=2">
   <meta name="twitter:image:alt" content="Емблема ІК. Перукар-стиліст Ірина Ковальова у Бучі. Запис: +380 96 125 34 21">
 
+  <link rel="preload" as="image" href="images/master/master-cutout.jpg" fetchpriority="high">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&amp;family=Roboto:wght@300;400;500&amp;display=swap"
+    onload="this.onload=null;this.rel='stylesheet'"
+  >
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&amp;family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  </noscript>
 
   <link rel="stylesheet" href="css/style.css">
   <script type="application/ld+json">
@@ -278,11 +287,11 @@
           </span>
           <span class="result-card__inner">
             <span class="result-card__face result-card__face--front">
-              <img class="result-card__image" src="images/results/before-1.jpg" alt="Волосся до процедури, результат 1">
+              <img class="result-card__image" src="images/results/before-1.jpg" alt="Волосся до процедури, результат 1" width="800" height="1108" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ДО</span>
             </span>
             <span class="result-card__face result-card__face--back" aria-hidden="true">
-              <img class="result-card__image" src="images/results/after-1.jpg" alt="Волосся після процедури, результат 1">
+              <img class="result-card__image" src="images/results/after-1.jpg" alt="Волосся після процедури, результат 1" width="800" height="980" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ПІСЛЯ</span>
             </span>
           </span>
@@ -304,11 +313,11 @@
           </span>
           <span class="result-card__inner">
             <span class="result-card__face result-card__face--front">
-              <img class="result-card__image" src="images/results/before-2.jpg" alt="Волосся до процедури, результат 2">
+              <img class="result-card__image" src="images/results/before-2.jpg" alt="Волосся до процедури, результат 2" width="800" height="1428" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ДО</span>
             </span>
             <span class="result-card__face result-card__face--back" aria-hidden="true">
-              <img class="result-card__image" src="images/results/after-2.jpg" alt="Волосся після процедури, результат 2">
+              <img class="result-card__image" src="images/results/after-2.jpg" alt="Волосся після процедури, результат 2" width="800" height="1188" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ПІСЛЯ</span>
             </span>
           </span>
@@ -330,11 +339,11 @@
           </span>
           <span class="result-card__inner">
             <span class="result-card__face result-card__face--front">
-              <img class="result-card__image" src="images/results/before-3.jpg" alt="Волосся до процедури, результат 3">
+              <img class="result-card__image" src="images/results/before-3.jpg" alt="Волосся до процедури, результат 3" width="800" height="1343" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ДО</span>
             </span>
             <span class="result-card__face result-card__face--back" aria-hidden="true">
-              <img class="result-card__image" src="images/results/after-3.jpg" alt="Волосся після процедури, результат 3">
+              <img class="result-card__image" src="images/results/after-3.jpg" alt="Волосся після процедури, результат 3" width="800" height="998" loading="lazy" decoding="async">
               <span class="result-card__label" aria-hidden="true">ПІСЛЯ</span>
             </span>
           </span>
@@ -355,7 +364,10 @@
             class="technique-image"
             src="images/color/holodne-vidnovlenya-1.jpg"
             alt="Результат холодного відновлення волосся до та після"
+            width="900"
+            height="900"
             loading="lazy"
+            decoding="async"
           >
         </article>
 
@@ -366,7 +378,10 @@
             class="technique-image"
             src="images/color/keratin-1.jpg"
             alt="Результат кератинового відновлення волосся"
+            width="900"
+            height="857"
             loading="lazy"
+            decoding="async"
           >
         </article>
 
@@ -377,7 +392,10 @@
             class="technique-image"
             src="images/color/botoks-1.jpg"
             alt="Гладке волосся після процедури ботоксу"
+            width="900"
+            height="900"
             loading="lazy"
+            decoding="async"
           >
         </article>
 
@@ -428,7 +446,10 @@
                 <img
                   src="images/styling/sviatkova-1.jpg"
                   alt="Святкова зачіска з м’якими локонами та зібраним волоссям"
+                  width="800"
+                  height="918"
                   loading="lazy"
+                  decoding="async"
                 >
               </div>
               <figcaption class="hairstyle-photo__caption">
@@ -452,7 +473,10 @@
                 <img
                   src="images/styling/lokoni-1.jpg"
                   alt="Вечірня зачіска з об’ємними м’якими локонами"
+                  width="923"
+                  height="1224"
                   loading="lazy"
+                  decoding="async"
                 >
               </div>
               <figcaption class="hairstyle-photo__caption">
@@ -476,7 +500,10 @@
                 <img
                   src="images/styling/afro-zachiska-1.jpg"
                   alt="Святкова зачіска з плетінням та об’ємними косами"
+                  width="470"
+                  height="952"
                   loading="lazy"
+                  decoding="async"
                 >
               </div>
               <figcaption class="hairstyle-photo__caption">
