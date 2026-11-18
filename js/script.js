@@ -98,58 +98,92 @@ hairstyleTabs.forEach((tab, index) => {
 
 /* Плавна поява під час прокручування */
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const revealItems = Array.from(document.querySelectorAll([
+  '.section > .eyebrow',
+  '.section > h2',
+  '#pro-nas > p:not(.eyebrow)',
+  '.facts li',
+  '.service-card',
+  '.result-card',
+  '.technique-card',
+  '.hairstyle-intro',
+  '.hairstyle-tabs',
+  '.review-card',
+  '.contact-info',
+  '.contact-map',
+].join(', ')));
+let revealObserver = null;
 
-if ('IntersectionObserver' in window && !motionPreference.matches) {
-  const revealItems = document.querySelectorAll([
-    '.section > .eyebrow',
-    '.section > h2',
-    '#pro-nas > p:not(.eyebrow)',
-    '.facts li',
-    '.service-card',
-    '.result-card',
-    '.technique-card',
-    '.hairstyle-intro',
-    '.hairstyle-tabs',
-    '.review-card',
-    '.contact-info',
-    '.contact-map',
-  ].join(', '));
+function startRevealAnimations() {
+  if (!('IntersectionObserver' in window) || motionPreference.matches || revealObserver) return;
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-
       const item = entry.target;
-      item.classList.remove('reveal-pending');
-      item.classList.add('reveal-entering');
-      observer.unobserve(item);
+
+      if (entry.isIntersecting) {
+        if (!item.classList.contains('reveal-pending')) return;
+
+        item.classList.remove('reveal-pending', 'reveal-entering');
+        void item.offsetWidth;
+        item.classList.add('reveal-entering');
+        return;
+      }
+
+      if (!item.matches(':focus-within')) {
+        item.classList.remove('reveal-entering');
+        item.classList.add('reveal-pending');
+      }
     });
-  }, { rootMargin: '0px 0px -24px 0px' });
+  }, { rootMargin: '0px 0px -24px 0px', threshold: 0.08 });
 
   revealItems.forEach((item) => {
-    if (item.getBoundingClientRect().top < window.innerHeight) return;
-
     const siblings = Array.from(item.parentElement.children);
     item.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(item), 2) * 80}ms`);
-    item.classList.add('reveal-pending');
+    const bounds = item.getBoundingClientRect();
+    const initiallyVisible = bounds.bottom > 0 && bounds.top < window.innerHeight;
+
+    if (!initiallyVisible && !item.matches(':focus-within')) {
+      item.classList.add('reveal-pending');
+    }
+
     revealObserver.observe(item);
-
-    item.addEventListener('focusin', () => {
-      item.classList.remove('reveal-pending', 'reveal-entering');
-      revealObserver.unobserve(item);
-    });
-
     item.addEventListener('animationend', (event) => {
-      if (event.target === item && event.animationName === 'reveal-up') {
+      if (
+        event.target === item
+        && (event.animationName === 'reveal-up' || event.animationName === 'reveal-card')
+      ) {
         item.classList.remove('reveal-entering');
       }
     });
   });
+}
 
-  motionPreference.addEventListener('change', (event) => {
-    if (!event.matches) return;
-
+function stopRevealAnimations() {
+  if (revealObserver) {
     revealObserver.disconnect();
-    revealItems.forEach((item) => item.classList.remove('reveal-pending', 'reveal-entering'));
+    revealObserver = null;
+  }
+
+  revealItems.forEach((item) => {
+    item.classList.remove('reveal-pending', 'reveal-entering');
   });
 }
+
+document.addEventListener('focusin', (event) => {
+  const item = event.target.closest('.reveal-pending');
+  if (!item) return;
+
+  item.classList.remove('reveal-pending', 'reveal-entering');
+  if (revealObserver) revealObserver.unobserve(item);
+});
+
+motionPreference.addEventListener('change', (event) => {
+  if (event.matches) {
+    stopRevealAnimations();
+  } else {
+    startRevealAnimations();
+  }
+});
+
+startRevealAnimations();

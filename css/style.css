@@ -1566,18 +1566,35 @@ h3 {
 }
 
 .reveal-entering {
-  animation: reveal-up 700ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation: reveal-up 720ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   animation-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-entering:is(.service-card, .result-card, .technique-card, .facts li, .review-card, .contact-info, .contact-map) {
+  animation-name: reveal-card;
 }
 
 @keyframes reveal-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    translate: 0 18px;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    translate: 0 0;
+  }
+}
+
+@keyframes reveal-card {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.985;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
   }
 }
 
@@ -1594,6 +1611,8 @@ h3 {
 
   .reveal-entering {
     animation: none;
+    translate: none;
+    scale: none;
   }
 }
 
