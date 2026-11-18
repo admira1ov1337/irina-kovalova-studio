@@ -2,6 +2,16 @@
 const burger = document.querySelector('.burger');
 const nav = document.querySelector('#nav');
 
+function clearAnchorFromAddressBar() {
+  if (!window.location.hash) return;
+
+  const cleanUrl = window.location.pathname + window.location.search;
+  window.history.replaceState(window.history.state, '', cleanUrl);
+}
+
+window.addEventListener('hashchange', clearAnchorFromAddressBar);
+clearAnchorFromAddressBar();
+
 function setMenu(open) {
   nav.classList.toggle('is-open', open);
   burger.setAttribute('aria-expanded', open);
